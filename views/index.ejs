@@ -1,3 +1,41 @@
-<h1>
-    This is the home page.
-</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <a href="./">The Secret Club</a>
+        </div>
+        <% if (!user) {%>
+        <div class="header-right">
+            <a href="./log-in"><button>Log in</button></a>
+        </div>
+        <% } else { %>
+        <div class="header-right">
+            <a href="./log-out"><button>Log out</button></a>
+        </div>
+        <% } %>
+    </header>
+    <body>
+        <div class="messages-list">
+            <div class="message">
+                <div class="message-main">
+                    Title: Test Message
+                </div>
+                <div class="message-meta">
+                    <div class="message-meta-left">
+                        Author: John Doe
+                    </div>
+                    <div class="message-meta-right">
+                        Date: 20/08/2024
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</body>
+</html>
