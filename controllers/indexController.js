@@ -28,6 +28,8 @@ exports.registerPost = [
 
     body('username').isLength({min: 3, max: 255}).withMessage('Username must be between 3 and 255 characters long').trim().escape(),
     body('password').isLength({ min: 6, max: 255 }).withMessage('Password must be between 6 and 255 characters long').trim().escape(),
+    body("first_name").isLength({ max: 255}).withMessage('First name must be at most 255 characters long').trim().escape().optional(),
+    body("last_name").isLength({ max: 255}).withMessage('Last name must be at most 255 characters long').trim().escape().optional(),
 
     asyncHandler(async (req, res, next) => {
 

@@ -2,6 +2,8 @@ const express = require("express");
 const session = require("express-session");
 const pgSession = require('connect-pg-simple')(session);
 const passport = require("passport");
+const expressLayouts = require('express-ejs-layouts');
+const path = require("node:path");
 
 const indexRouter = require("./routes/indexRouter");
 
@@ -11,6 +13,7 @@ require("dotenv").config();
 
 const app = express();
 app.set("view engine", "ejs");
+app.use(expressLayouts);
 
 const sessionStore = new pgSession({
     pool,
@@ -29,6 +32,7 @@ app.use(session({
 
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 require("./config/passport");
 

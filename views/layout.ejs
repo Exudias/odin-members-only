@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script>
+        window.addEventListener('load', function() {
+            const firstFormElement = document.querySelector('form input, form select, form textarea');
+
+            if (firstFormElement) {
+                firstFormElement.focus();
+                if (firstFormElement.tagName === 'INPUT' || firstFormElement.tagName === 'TEXTAREA') 
+                {
+                    const length = firstFormElement.value.length;
+                    firstFormElement.setSelectionRange(length, length); // Move cursor to the end
+                } 
+                else if (firstFormElement.tagName === 'SELECT') 
+                {
+                    firstFormElement.selectedIndex = 0; // Select the first option
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <a href="./">The Secret Club</a>
+        </div>
+        <% if (!locals.user) {%>
+        <div class="header-right">
+            <a href="./log-in"><button>Log in</button></a>
+        </div>
+        <% } else { %>
+        <div class="header-right">
+            <a href="./log-out"><button>Log out</button></a>
+        </div>
+        <% } %>
+    </header>
+    <%- body %>
+</body>
+</html>

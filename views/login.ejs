@@ -1,37 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
-</head>
-<body>
-    <header>
-        <div class="header-left">
-            <a href="./">The Secret Club</a>
-        </div>
-    </header>
-    <body>
-        <div class="body-title">
-            <h1>Log in</h1>
-        </div>
-        <div class="form-container">
-            <form action="/log-in" method="post">
-                <label>
-                    Username
-                    <input type="text" maxlength="255" name="username" required>
-                </label>
-                <label>
-                    Password
-                    <input type="password" maxlength="255" name="password" required>
-                </label><br>
-                <button type="submit">Log in</button>
-            </form>
-        </div>
-        <div class="register-container">
-            <h2>No account?</h2>
-            <a href="/register">Register</a>
-        </div>
-    </body>
-</body>
-</html>
+<main>
+    <div class="body-title">
+        <h1>Log in</h1>
+    </div>
+    <div class="form-container">
+        <form action="/log-in" method="post">
+            <label>
+                Username
+                <input type="text" maxlength="255" name="username" required>
+            </label>
+            <label>
+                Password
+                <input type="password" maxlength="255" name="password" required>
+            </label><br>
+            <button type="submit">Log in</button>
+        </form>
+    </div>
+    <div class="register-container">
+        <h2>No account?</h2>
+        <a href="/register">Register</a>
+    </div>
+</main>
