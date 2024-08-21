@@ -6,12 +6,16 @@ const { body, validationResult } = require('express-validator');
 const formatTimestamp = require("../utils/formatTimestamp");
 const authorFromUserId = require("../utils/authorFromUserId");
 
+require("dotenv").config();
+
 exports.indexGet = asyncHandler(async (req, res) => {
     const messages = await db.getAllMessages();
 
+    const canSeeDetails = req.user && req.user.member_status;
+
     const formattedMessages = await Promise.all(messages.map(async (msg) => {
-        const author = req.user ? await authorFromUserId(msg.user_id) : "";
-        const timestamp = req.user ? formatTimestamp(msg.timestamp) : "";
+        const author = canSeeDetails ? await authorFromUserId(msg.user_id) : "";
+        const timestamp = canSeeDetails ? formatTimestamp(msg.timestamp) : "";
 
         return {
             ...msg,
@@ -122,3 +126,24 @@ exports.newMessagePost = [
         }
     })
 ];
+
+exports.becomeMemberPost = asyncHandler(async (req, res) => {
+    const code = req.body.code;
+
+    if (!req.user)
+    {
+        return res.redirect("/");
+    }
+
+    if (code === process.env.SECRET_CODE)
+    {
+        await pool.query(
+            "UPDATE users SET member_status = TRUE WHERE id = $1", 
+            [
+                req.user.id,
+            ]
+        );
+    }
+    
+    res.redirect("/");
+});

@@ -22,6 +22,32 @@
                 }
             }
         });
+
+        function promptAndSubmit() {
+            // Prompt the user for input
+            const userInput = prompt("Enter the secret code to proceed:");
+
+            // Check if the input is correct
+            if (userInput === "bomba") {
+                // Create a form and submit it
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/become-member';
+
+                // Append a hidden input to send the data
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'code';
+                input.value = userInput;
+                form.appendChild(input);
+
+                // Append the form to the body and submit it
+                document.body.appendChild(form);
+                form.submit();
+            } else {
+                alert("Incorrect code.");
+            }
+        }
     </script>
 </head>
 <body>
@@ -36,6 +62,9 @@
         <% } else { %>
         <div class="header-right">
             <a href="./log-out"><button>Log out</button></a>
+            <% if (!locals.user.member_status) { %>
+            <button onclick="promptAndSubmit()">Become a member</button>
+            <% } %>
         </div>
         <% } %>
     </header>

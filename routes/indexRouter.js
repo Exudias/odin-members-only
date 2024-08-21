@@ -18,5 +18,6 @@ indexRouter.post("/log-in",
 ));
 indexRouter.post("/register", indexController.registerPost);
 indexRouter.post("/newMessage", indexController.newMessagePost);
+indexRouter.post("/become-member", indexController.becomeMemberPost);
 
 module.exports = indexRouter;
