@@ -1,0 +1,25 @@
+<main>
+    <div class="body-title">
+        <h1>Post a message</h1>
+    </div>
+    <div class="form-container">
+        <% if (locals.errors) {%>
+            <ul>
+                <% errors.forEach(function(error) { %>
+                <li><%= error.msg %></li>
+                <% }); %>
+            </ul>
+        <% } %>
+        <form action="/newMessage" method="post">
+            <label>
+                Title
+                <input type="text" maxlength="255" name="title" required>
+            </label><br>
+            <label>
+                Message
+                <input type="text" maxlength="255" name="text" required>
+            </label><br>
+            <button type="submit">Post</button>
+        </form>
+    </div>
+</main>

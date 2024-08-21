@@ -1,17 +1,30 @@
 <main>
+    <div>
+        <h1>Messages</h1>
+        <% if (locals.user) { %>
+        <a href="/newMessage"><button>+</button></a>
+        <% } %>
+    </div>
     <div class="messages-list">
+        <hr>
+        <% for (let i = 0; i < locals.messages.length; i++) { %>
         <div class="message">
-            <div class="message-main">
-                Title: Test Message
+            <div class="message-header">
+                <%= messages[i].title %>
+            </div>
+            <div class="message-body">
+                <%= messages[i].text %>
             </div>
             <div class="message-meta">
                 <div class="message-meta-left">
-                    Author: John Doe
+                    <%= messages[i].author %>
                 </div>
                 <div class="message-meta-right">
-                    Date: 20/08/2024
+                    <%= messages[i].timestamp %>
                 </div>
             </div>
+            <hr>
         </div>
+        <% } %>
     </div>
 </main>
