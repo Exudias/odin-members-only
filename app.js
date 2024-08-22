@@ -40,4 +40,4 @@ require("./config/passport");
 app.use("/", indexRouter);
 
 const PORT = process.env.PORT || 3000;
-app.listen(process.env.PORT, () => console.log(`Express app listening on port ${PORT}!`));
+app.listen(PORT, () => console.log(`Express app listening on port ${PORT}!`));
