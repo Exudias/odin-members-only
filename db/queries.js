@@ -8,7 +8,7 @@ async function getAllUsers()
 
 async function getAllMessages()
 {
-    const { rows } = await pool.query("SELECT * FROM messages");
+    const { rows } = await pool.query("SELECT * FROM messages ORDER BY timestamp DESC");
     return rows;
 }
 
