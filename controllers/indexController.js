@@ -5,6 +5,7 @@ const db = require("../db/queries");
 const { body, validationResult } = require('express-validator');
 const formatTimestamp = require("../utils/formatTimestamp");
 const authorFromUserId = require("../utils/authorFromUserId");
+const passport = require("passport");
 
 require("dotenv").config();
 
@@ -44,6 +45,11 @@ exports.registerGet = asyncHandler(async (req, res) => {
     res.render("register", { title: "Register", user: req.user, });
 });
 
+exports.loginPost = passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/log-in"
+});
+
 exports.registerPost = [
     body('username').isLength({min: 3, max: 255}).withMessage('Username must be between 3 and 255 characters long').trim().escape(),
     body('password').isLength({ min: 6, max: 255 }).withMessage('Password must be between 6 and 255 characters long').trim().escape(),
@@ -65,15 +71,7 @@ exports.registerPost = [
         {
             const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-            await pool.query(
-                "INSERT INTO users (username, password, first_name, last_name) VALUES ($1, $2, $3, $4)", 
-                [
-                    req.body.username,
-                    hashedPassword,
-                    req.body.first_name,
-                    req.body.last_name,
-                ]
-            );
+            await db.createUser(req.body.username, hashedPassword, req.body.first_name, req.body.last_name);
             
             res.redirect("/");
         }
@@ -109,14 +107,7 @@ exports.newMessagePost = [
 
         try
         {
-            await pool.query(
-                "INSERT INTO messages (title, text, user_id) VALUES ($1, $2, $3)", 
-                [
-                    req.body.title,
-                    req.body.text,
-                    req.user.id,
-                ]
-            );
+            await db.createMessage(req.body.title, req.body.text, req.user.id);
             
             res.redirect("/");
         }
@@ -137,12 +128,7 @@ exports.becomeMemberPost = asyncHandler(async (req, res) => {
 
     if (code === process.env.SECRET_CODE)
     {
-        await pool.query(
-            "UPDATE users SET member_status = TRUE WHERE id = $1", 
-            [
-                req.user.id,
-            ]
-        );
+        await db.makeUserMember(req.user.id);
         return res.json({ success: true });
     }
     
