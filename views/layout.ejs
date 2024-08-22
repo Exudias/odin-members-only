@@ -27,26 +27,37 @@
             // Prompt the user for input
             const userInput = prompt("Enter the secret code to proceed:");
 
-            // Check if the input is correct
-            if (userInput === "bomba") {
-                // Create a form and submit it
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = '/become-member';
-
-                // Append a hidden input to send the data
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = 'code';
-                input.value = userInput;
-                form.appendChild(input);
-
-                // Append the form to the body and submit it
-                document.body.appendChild(form);
-                form.submit();
-            } else {
-                alert("Incorrect code.");
-            }
+            // Send the input to the server for verification
+            fetch('/verify-code', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ code: userInput })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Code verified. Proceeding.');
+                    fetch('/become-member', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ code: userInput })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            window.location.reload();
+                        }
+                    })
+                    .catch(err => console.error('Error verifying code:', err));
+                } else {
+                    alert('Incorrect code.');
+                }
+            })
+            .catch(err => console.error('Error verifying code:', err));
         }
     </script>
 </head>

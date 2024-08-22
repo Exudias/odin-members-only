@@ -132,7 +132,7 @@ exports.becomeMemberPost = asyncHandler(async (req, res) => {
 
     if (!req.user)
     {
-        return res.redirect("/");
+        return res.json({ success: false });
     }
 
     if (code === process.env.SECRET_CODE)
@@ -143,7 +143,18 @@ exports.becomeMemberPost = asyncHandler(async (req, res) => {
                 req.user.id,
             ]
         );
+        return res.json({ success: true });
     }
     
-    res.redirect("/");
+    res.json({ success: false });
+});
+
+exports.verifyCodePost = asyncHandler(async (req, res) => {
+    const { code } = req.body;
+
+    if (code === process.env.SECRET_CODE) {
+        res.json({ success: true });
+    } else {
+        res.json({ success: false });
+    }
 });
