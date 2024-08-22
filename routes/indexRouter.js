@@ -20,5 +20,6 @@ indexRouter.post("/register", indexController.registerPost);
 indexRouter.post("/newMessage", indexController.newMessagePost);
 indexRouter.post("/become-member", indexController.becomeMemberPost);
 indexRouter.post('/verify-code', indexController.verifyCodePost);
+indexRouter.delete('/messages/:id', indexController.messageDelete);
 
 module.exports = indexRouter;

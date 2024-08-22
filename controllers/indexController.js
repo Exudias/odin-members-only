@@ -11,7 +11,7 @@ require("dotenv").config();
 exports.indexGet = asyncHandler(async (req, res) => {
     const messages = await db.getAllMessages();
 
-    const canSeeDetails = req.user && req.user.member_status;
+    const canSeeDetails = req.user && (req.user.member_status || req.user.admin);
 
     const formattedMessages = await Promise.all(messages.map(async (msg) => {
         const author = canSeeDetails ? await authorFromUserId(msg.user_id) : "";
@@ -156,5 +156,20 @@ exports.verifyCodePost = asyncHandler(async (req, res) => {
         res.json({ success: true });
     } else {
         res.json({ success: false });
+    }
+});
+
+exports.messageDelete = asyncHandler(async (req, res) => {
+    const id = req.params.id;
+
+    try 
+    {
+        await pool.query("DELETE FROM messages WHERE id = $1", [id]);
+        res.status(200).send('Message deleted');
+    }
+    catch (error) 
+    {
+        console.error('Error deleting message:', error);
+        res.status(500).send('Failed to delete message');
     }
 });

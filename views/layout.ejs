@@ -73,7 +73,7 @@
         <% } else { %>
         <div class="header-right">
             <a href="./log-out"><button>Log out</button></a>
-            <% if (!locals.user.member_status) { %>
+            <% if (!locals.user.member_status && !locals.user.admin) { %>
             <button onclick="promptAndSubmit()">Become a member</button>
             <% } %>
         </div>
